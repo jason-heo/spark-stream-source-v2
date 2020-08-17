@@ -15,7 +15,7 @@ object Main {
     val df = spark
       .readStream
       .format("io.github.jasonheo.sources.RandomIntStreamProvider")
-      .option("numPartitions", "1") // partition 개수, Task로 할당된다. executor 개수가 넉넉한 경우 읽기 병렬성은 높일 수 있다
+      .option("numPartitions", "2") // partition 개수, Task로 할당된다. executor 개수가 넉넉한 경우 읽기 병렬성은 높일 수 있다
       .load()
 
     df.printSchema()
@@ -25,7 +25,7 @@ object Main {
     val query: StreamingQuery = df
       .writeStream
       .format("console")
-      .trigger(org.apache.spark.sql.streaming.Trigger.Continuous(2.seconds))
+      .trigger(org.apache.spark.sql.streaming.Trigger.ProcessingTime(5.seconds))
       .outputMode("append")
       .start()
 

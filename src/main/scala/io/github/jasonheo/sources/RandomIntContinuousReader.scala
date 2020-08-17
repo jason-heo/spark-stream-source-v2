@@ -126,9 +126,9 @@ class RandomIntContinuousInputPartitionReader(partitionId: Int, startOffset: Lon
     logInfo(s"[partition-${partitionId}] next() called")
 
     // 예제 프로그램에서는 의도적으로 메시지를 늦게 생성한다
-    // 0.8초 ~ 1.3초 사이에 1개의 레코드씩 생성한다
+    // 2.0초 ~ 3.0초 사이에 1개의 레코드씩 생성한다
     // 너무 빠르게 생성되는 경우 로그 메시지가 많아서 분석이 어렵다
-    Thread.sleep(800 + randomIntGenerator.nextInt(500))
+    Thread.sleep(2000 + randomIntGenerator.nextInt(3000))
 
     try {
       cnt += 1
