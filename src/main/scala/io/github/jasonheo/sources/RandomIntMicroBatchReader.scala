@@ -128,7 +128,7 @@ class RandomIntMicroBatchInputPartitionReader(partitionId: Int,
   var randomInt: Int = _
 
   override def next(): Boolean = {
-    logInfo(s"[partition-${partitionId} next() called")
+    logInfo(s"[partition-${partitionId}] next() called")
 
     // next()가 false를 return한 경우 micro batch read가 종료된다
     // numNewRows보다 개수를 더 적거나 많이 return하더라도 문제없다
@@ -146,11 +146,11 @@ class RandomIntMicroBatchInputPartitionReader(partitionId: Int,
   // API를 보면 다음번 next()가 호출되기 전까지 get()은 항상 동일한 Row를 return해야한다고 한다
   // 그래서 `randomInt`를 next() 함수 내에서 생성했다
   override def get(): InternalRow = {
-    logInfo(s"[partition-${partitionId} get() called")
+    logInfo(s"[partition-${partitionId}] get() called")
     InternalRow(partitionId, startOffset + cnt, randomInt)
   }
 
   override def close(): Unit = {
-    logInfo(s"[partition-${partitionId} close() called")
+    logInfo(s"[partition-${partitionId}] close() called")
   }
 }
