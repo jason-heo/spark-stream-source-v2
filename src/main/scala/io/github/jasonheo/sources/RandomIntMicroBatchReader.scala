@@ -39,11 +39,15 @@ class RandomIntMicroBatchReader(options: DataSourceOptions, checkpointLocation: 
 
     this.start = _start.orElse(LongOffset(0L)).asInstanceOf[LongOffset]
 
-    // `end`에는 argument로 전달된 `_end` + (data source에 신규로 인입된 메시지 건수)를 저장한다
+    
     this.end = if (_end.isPresent) {
+      // setOffsetRange()이 최초 두번째 호출된 상황:
+      // 인자로 넘어온 값을 그대로 사용한다
       _end.get.asInstanceOf[LongOffset]
     }
     else {
+      // setOffsetRange()이 최초 호출된 상황:
+      // `end`에는 argument로 전달된 `_start` + (data source에 신규로 인입된 메시지 건수)를 저장한다
       LongOffset(start.offset + getNumNewMsg())
     }
   }
